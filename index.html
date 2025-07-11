@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <title>Data Collector for AGOL</title>
+    <title>Alex Go!</title>
 
     <style>
         html,
@@ -44,7 +44,7 @@
 
 
     <script>
-        require([ "esri/config","esri/Map", "esri/views/MapView", "esri/widgets/Locate", "esri/widgets/Search", "esri/layers/FeatureLayer", "esri/widgets/LayerList"], (esriConfig, Map, MapView, Locate, Search, FeatureLayer, LayerList) => {
+        require([ "esri/config","esri/Map", "esri/views/MapView", "esri/widgets/Locate", "esri/widgets/Search", "esri/layers/FeatureLayer", "esri/widgets/LayerList", "esri/widgets/Expand"], (esriConfig, Map, MapView, Locate, Search, FeatureLayer, LayerList, Expand) => {
 
             esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurFMjDIPc-ru-jZFtFOH_OKPiwSWHzcSf3sG-gWYqWY54-wpDqmf0rWwD2ThPO2oX9ArjzlGZjJBe5BMSHsq5gsKX8o7Z7M9ddAgHM4S9lQie95awhTLEiQKzfoqlFNUgV_RgrtgWcSEKdPTNxGtElT3G3546KDjwvKxGSYKgiIDEaphpnqgEz_py5lq8EeuYYiO9xgd6MaeLvGjCd-sRYAcePAxi5MZ0hw94qxJulHQjAT1_aPenkLzs";
 
@@ -66,7 +66,8 @@
 
             const mnfiLayer = new FeatureLayer({
                 url: "https://services1.arcgis.com/7w1SUsLNZbGKoz6h/arcgis/rest/services/Michigan_vegetation_c1800/FeatureServer",
-                popupTemplate : popupMNFI
+                popupTemplate : popupMNFI,
+                title : "Small-Scale Michican Vegetation"
             });
 
             map.add(mnfiLayer);
@@ -79,7 +80,8 @@
             const layer = new FeatureLayer({ 
                 // URL to the service 
                 url: "https://services3.arcgis.com/Jdnp1TjADvSDxMAX/ArcGIS/rest/services/Michigan_DNR_Public_Forest_Inventory_Data/FeatureServer/3",
-                popupTemplate : popupMiFI
+                popupTemplate : popupMiFI,
+                title : " Large-Scale Michigan Vegetation"
             });
 
             map.add(layer);
@@ -91,7 +93,8 @@
 
             const surveyLayer = new FeatureLayer({
                 url : "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/survey123_32aed5a7789940709c4e7c07829f9955_results/FeatureServer",
-                popupTemplate: popupSurvey
+                popupTemplate: popupSurvey,
+                title : "Survey Results"
 
             });
 
@@ -101,8 +104,14 @@
                 view: view
             });
 
-            view.ui.add(layerList, {
-                position: "bottom-left"
+            const layerListExpand = new Expand ({
+                view : view,
+                content : layerList,
+                expandToolTip : "Show Layers" 
+            });
+
+            view.ui.add(layerListExpand, {
+                position : "bottom-left"
             });
 
             const searchWidget = new Search({
@@ -120,7 +129,7 @@
             });
 
             view.ui.add(searchWidget, {
-                position: "top-left",
+                position: "bottom-right",
                 index: 2
             });
 
@@ -141,7 +150,7 @@
   </head>
   <body>
    <!-- hello world text to check if everything worked -->
-    <a href="https://arcg.is/1SqOqS0" target="_blank" class="addRecordBtn">Add Record</a>
+    <a href="https://arcg.is/1SqOqS0" target="_blank" class="addRecordBtn">Record Tree</a>
      <div id="viewDiv"></div>
   </body>
 </html>
